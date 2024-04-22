@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "engines": {
-    "node": "20.x"
+    "node": "20.12.2"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
