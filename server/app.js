@@ -14,7 +14,7 @@ dotenv.config();
 //config app
 
 route(app);
-const PORT = PORT.env.PORT || 6969;
+const PORT = process.env.PORT || 6969;
 
 app.listen(PORT, () => {
   console.log("Backend Nodejs is running on the port: " + PORT);
