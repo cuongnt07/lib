@@ -94,7 +94,7 @@ class BorrowingOffController {
   //sửa thông tin liên quan đến mượn off.
   async updateBorrowingOff(req, res) {
     try {
-      const { borrowing_id } = req.params;
+      const { borrowing_id } = req.body;
       const { book_id, user_id, return_date } = req.body;
       const borrowingOff = await db.borrowingOffline.findOne({
         where: { borrowing_id },
@@ -105,6 +105,7 @@ class BorrowingOffController {
           msg: "BorrowingOffline not found",
         });
       }
+      borrowingOff.borrowing_id = borrowing_id || borrowingOff.borrowing_id;
       borrowingOff.book_id = book_id || borrowingOff.book_id;
       borrowingOff.user_id = user_id || borrowingOff.user_id;
       borrowingOff.return_date = return_date || borrowingOff.return_date;
@@ -171,36 +172,35 @@ class BorrowingOffController {
 
   // cho mượn off thủ thư
   async newBorrowingOff(req, res) {
-    try{
-        var now = new Date()
-        const borrowingOff = req.body;
-        const book = await db.book.findOne({
-          where: {
-            book_id: borrowingOff.book_id,
-            idle: 1,
-          },
-        });
-  
-        if (!book) {
-          return res.status(401).send("Không tìm thấy sách này");
-        }
-        await db.borrowingOffline.create({
-            book_id: borrowingOff.book_id,
-            user_id: borrowingOff.user_id,
-            borrowing_date: now,
-            return_date: borrowingOff.return_date,
-            due_date: new Date(now.getTime() + (100 * 24 * 60 * 60 * 1000))
-        })
-        return res.status(200).json({
-            errCode: 0,
-            msg: 'Create borrowingOffline successfully!'
-        })
-    } catch(err) {
-        console.log(err)
-        return res.status(500).json("error")
+    try {
+      var now = new Date();
+      const borrowingOff = req.body;
+      const book = await db.book.findOne({
+        where: {
+          book_id: borrowingOff.book_id,
+          idle: 1,
+        },
+      });
+
+      if (!book) {
+        return res.status(401).send("Không tìm thấy sách này");
+      }
+      await db.borrowingOffline.create({
+        book_id: borrowingOff.book_id,
+        user_id: borrowingOff.user_id,
+        borrowing_date: now,
+        return_date: borrowingOff.return_date,
+        due_date: new Date(now.getTime() + 100 * 24 * 60 * 60 * 1000),
+      });
+      return res.status(200).json({
+        errCode: 0,
+        msg: "Create borrowingOffline successfully!",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json("error");
     }
-}
+  }
 }
 
 module.exports = new BorrowingOffController();
-
