@@ -19,30 +19,21 @@ router.get(
   borrowingOfflineController.getAllBookBorrowed
 );
 
-router.put(
-  "/borrowingOff/:borrowing_id",
-  borrowingOfflineController.updateBorrowingOff
-);
+router.put("/borrowingOff", borrowingOfflineController.updateBorrowingOff);
 router.get(
   "/borrowOffCount/date",
   borrowingOfflineController.getBorrowOffCountByDateRange
 );
-/*router.get(
-  "/infoBorrowOff/:borrowing_id",
-  borrowingOfflineController.getInfoBorrowsOff
-);*/
-router.get(
-  "/infoBorrowOff",
-  borrowingOfflineController.getInfoBorrowsOff
-);
+
+router.get("/infoBorrowOff", borrowingOfflineController.getInfoBorrowsOff);
 router.post(
   "/createBorrowing-offline",
   borrowingOfflineController.newBorrowingOff
 );
 
 router.post(
-    "/createBorrowing-offline",
-    borrowingOfflineController.newBorrowingOff
-  );
+  "/createBorrowing-offline",
+  borrowingOfflineController.newBorrowingOff
+);
 
 module.exports = router;
