@@ -11,7 +11,7 @@ function convertToFileName(text) {
       .replace(/đ/g, "d") // Chuyển chữ "đ" thành "d"
       .replace(/[^a-zA-Z0-9]+/g, "-") // Thay thế các ký tự không phải chữ cái hoặc số bằng dấu "-"
       .replace(/^-+|-+$/g, ""); // Xóa các dấu "-" ở đầu hoặc cuối chuỗi
-      return fileName + ".pdf"
+      return "https://librarymanagementsys-production.up.railway.app/api/open-pdf" + fileName + ".pdf"
   }
 
   function convertToFileNameThum(text) {
