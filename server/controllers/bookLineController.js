@@ -13,21 +13,42 @@ function convertToFileName(text) {
       .replace(/^-+|-+$/g, ""); // Xóa các dấu "-" ở đầu hoặc cuối chuỗi
       return fileName + ".pdf"
   }
+
+  function convertToFileNameThum(text) {
+    let fileName = text
+      .toLowerCase() // Chuyển đổi tất cả các ký tự sang chữ thường
+      .trim() // Xóa khoảng trắng đầu và cuối chuỗi
+      .normalize("NFD") // Chuyển đổi các ký tự dấu sang các ký tự không dấu
+      .replace(/[\u0300-\u036f]/g, "") // Loại bỏ các ký tự dấu
+      .replace(/đ/g, "d") // Chuyển chữ "đ" thành "d"
+      .replace(/[^a-zA-Z0-9]+/g, "-") // Thay thế các ký tự không phải chữ cái hoặc số bằng dấu "-"
+      .replace(/^-+|-+$/g, ""); // Xóa các dấu "-" ở đầu hoặc cuối chuỗi
+      return fileName + ".jpg"
+  }
+
 class BookLineController {
     
 
     async createNewBookLine(req, res) {
         try{
             const bookLine = req.body;
-            await db.bookLine.create({
+            const newBookLine = await db.bookLine.create({
                 bookline_name: bookLine.bookline_name,
                 publisher_id: bookLine.publisher_id,
                 category_id: bookLine.category_id,
-                thumnail: convertToFileName(bookLine.bookline_name)
+                thumnail: convertToFileNameThum(bookLine.bookline_name),
+                document_url: convertToFileName(bookLine.bookline_name)
             })
+            const authorId = bookLine.author_id; // hoặc một mảng các author_id nếu có nhiều tác giả
+
+            // Tạo bản ghi trong bảng author_books
+            await db.authorBook.create({
+                bookline_id: newBookLine.id, // sử dụng id của bookline mới tạo
+                author_id: authorId
+            });
             return res.status(200).json({
                 errCode: 0,
-                msg: 'Create book line successfully!'
+                msg: 'Create book line and author book record successfully!'
             })
         } catch(err) {
             console.log(err)
