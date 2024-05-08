@@ -21,12 +21,14 @@ class CategoryController {
 
   async getAllCategory(req, res) {
     try {
-      const data = await db.category.sequelize.query(
+      const result = await db.category.sequelize.query(
         "SELECT * FROM categories",
         { type: sequelize.QueryTypes.SELECT }
       );
       return res.status(200).json({
-        data,
+        errCode: 0,
+        msg: "Get category successfully!",
+        result,
       });
     } catch (err) {
       console.log(err);
