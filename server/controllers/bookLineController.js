@@ -14,7 +14,7 @@ function convertToFileName(text) {
       return "https://librarymanagementsys-production.up.railway.app/api/open-pdf/" + fileName + ".pdf"
   }
 
-  function convertToFileNameThum(text) {
+  function convertToFileNameThumb(text) {
     let fileName = text
       .toLowerCase() // Chuyển đổi tất cả các ký tự sang chữ thường
       .trim() // Xóa khoảng trắng đầu và cuối chuỗi
@@ -36,7 +36,7 @@ class BookLineController {
                 bookline_name: bookLine.bookline_name,
                 publisher_id: bookLine.publisher_id,
                 category_id: bookLine.category_id,
-                thumnail: convertToFileNameThum(bookLine.bookline_name),
+                thumbnail: convertToFileNameThumb(bookLine.bookline_name),
                 document_url: convertToFileName(bookLine.bookline_name)
             })
             const authorId = bookLine.author_id; // hoặc một mảng các author_id nếu có nhiều tác giả

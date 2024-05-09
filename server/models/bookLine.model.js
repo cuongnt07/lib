@@ -11,7 +11,10 @@ const BookLine = db.define('book_lines', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    thumnail: {
+    thumbnail: {
+        type: DataTypes.STRING
+    },
+    document_url: {
         type: DataTypes.STRING
     }
 })
