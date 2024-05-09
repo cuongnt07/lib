@@ -39,4 +39,24 @@ router.get('/open-pdf/:filename', (req, res) => {
       res.send(data);
     });
 });
+
+router.get('/open-image/:filename', (req, res) => {
+    const { filename } = req.params;
+    const imagePath = path.join(__dirname, '../uploads', filename);
+
+    // Kiểm tra định dạng file
+    if (path.extname(filename).toLowerCase() === '.jpg') {
+        fs.access(imagePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                console.error('File does not exist');
+                return res.sendStatus(404);
+            }
+
+            res.sendFile(imagePath);
+        });
+    } else {
+        res.status(400).send('Invalid file type. Only JPG files are allowed.');
+    }
+});
+
 module.exports = router;

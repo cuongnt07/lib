@@ -43,7 +43,7 @@ class BookLineController {
 
             // Tạo bản ghi trong bảng author_books
             await db.authorBook.create({
-                bookline_id: newBookLine.id, // sử dụng id của bookline mới tạo
+                bookline_id: newBookLine.bookline_id, // sử dụng id của bookline mới tạo
                 author_id: authorId
             });
             return res.status(200).json({
