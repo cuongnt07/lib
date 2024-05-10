@@ -137,7 +137,7 @@ class BookController {
 
       if (category) {
         const categoryId = await Category.findOne({
-          where: { category_name: category },
+          where: { category_name: category.category_name },
           attributes: ["category_id"],
         });
 
