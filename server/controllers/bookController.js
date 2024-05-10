@@ -132,15 +132,15 @@ class BookController {
   //Filter tìm kiếm sách bằng category
   async filterBookByCategory(req, res) {
     try {
-      const { category } = req.query;
+      const { category_name } = req.query;
       let books;
 
-      if (category) {
+      if (category_name) {
         const categoryId = await Category.findOne({
-          where: { category_name: category },
+          where: { category_name: category_name },
           attributes: ["category_id"],
         });
-
+        console.log(categoryId);
         if (categoryId) {
           books = await Bookline.findAll({
             include: [
@@ -153,7 +153,7 @@ class BookController {
             attributes: [
               "bookline_id",
               "bookline_name",
-              "thumnail",
+              "thumbnail",
               "createdAt",
               "updatedAt",
               "publisher_id",
