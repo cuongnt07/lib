@@ -4,9 +4,10 @@ const jwt = require("jsonwebtoken")
 class authenticateMiddleware {
     authenticate(req, res, next) {
         //check xem dang nhap chua
-        const token = req.header("token");
+        const token = req.header("Authorization");
         try {
             const decode = jwt.verify(token, "quantrinh");
+            console.log(decode)
             if (decode) {
                 req.user = decode;
                 console.log(decode);
@@ -15,7 +16,7 @@ class authenticateMiddleware {
                 res.status(401).send("Bạn chưa đăng nhập")
             }
         } catch (error) {
-            res.status(500).send("Bạn chưa đăng nhập")
+            res.status(500).send("Lỗi xác thực")
         }
 
     };
