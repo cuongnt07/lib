@@ -27,7 +27,7 @@ class BorrowingOnlController {
     async getBorrowedBookOnline(req, res) {
         try {
             //const { user } = req;
-            const user = req.body;
+            const user = req.query;
             const book = await db.borrowingOnline.sequelize.query(`SELECT borrowing_id, borrowing_date, bookline_name, thumbnail, bl.bookline_id 
             From borrowing_onlines bo
             inner join book_lines bl on bl.bookline_id = bo.bookline_id
