@@ -37,6 +37,34 @@ class BorrowingOffController {
       return res.status(500).json("Hết sách");
     }
   }
+  //API người dùng xem sách mình đã thuê off
+  async getBorrowedBookOffline(req, res) {
+    try {
+        const user = req.query;
+        const borrowedBooks = await db.borrowingOffline.sequelize.query(
+          `SELECT bo.borrowing_id, bo.borrowing_date, bo.due_date, bo.return_date, b.book_id, bl.bookline_id, bl.bookline_name, r.repository_name,
+          CASE 
+                WHEN bo.return_date IS NULL THEN 'Đang mượn' 
+          ELSE 'Đã trả'
+          END AS status
+          FROM borrowing_offlines bo
+          INNER JOIN books b ON bo.book_id = b.book_id
+          INNER JOIN book_lines bl ON b.bookline_id = bl.bookline_id
+          INNER JOIN repositories r ON r.repository_id = b.repository_id
+          WHERE user_id = ${user.user_id}`,
+          { type: QueryTypes.SELECT }
+      );
+
+      if (!borrowedBooks || borrowedBooks.length === 0) {
+          return res.status(404).json({ message: 'Không có sách nào được mượn offline' });
+      }
+      res.status(200).json(borrowedBooks);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
   //API trả sách offline
   async returnBookOffline(req, res) {
     try {
@@ -67,27 +95,6 @@ class BorrowingOffController {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Internal server error" });
-    }
-  }
-  //API danh sách sách đã thuê offline
-  async getAllBookBorrowed(req, res) {
-    try {
-      const { user } = req;
-      const book = await db.borrowingOnline.sequelize.query(
-        `SELECT borrowing_id,borrowing_date, return_date, due_date,b.book_id,bl.bookline_id,bookline_name,thumbnail,repository_name, address FROM borrowing_offlines
-            inner join books b on b.book_id = borrowing_offlines.book_id
-            inner join book_lines bl on bl.bookline_id = b.bookline_id
-            inner join repositories r on r.repository_id = b.repository_id
-            where user_id = ${user.userId}`,
-        { type: QueryTypes.SELECT }
-      );
-      if (!book) {
-        return res.status(404).json({ message: "Book not found" });
-      }
-      res.status(200).json(book);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
     }
   }
 
