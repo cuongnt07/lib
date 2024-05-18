@@ -29,7 +29,7 @@ function route(app) {
     app.use('/api', roleRouter)
     app.use('/api', repositoryRouter)
     app.use('/api', userRouter)
-    app.use('/api', upload)
+    //app.use('/api', upload)
 }
 
 

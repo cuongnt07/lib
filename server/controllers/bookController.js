@@ -95,7 +95,7 @@ class BookController {
   async getAllBook(req, res) {
     try {
       const books = await Bookline.sequelize.query(
-        `select book_lines.bookline_id, bookline_name, thumnail, categories.category_name, description as category_description, GROUP_CONCAT(DISTINCT author_name ORDER BY author_name ASC SEPARATOR ', ') as authors
+        `select book_lines.bookline_id, bookline_name, thumbnail, categories.category_name, description as category_description, GROUP_CONCAT(DISTINCT author_name ORDER BY author_name ASC SEPARATOR ', ') as authors
             , publisher_name, publishers.address as publisher_address, publishers.phone as publisher_phone, repository_name, repositories.address as repository_address from book_lines
             inner join categories on categories.category_id = book_lines.category_id
             inner join author_books on author_books.bookline_id = book_lines.bookline_id
@@ -184,7 +184,7 @@ class BookController {
     try {
       const { id } = req.params;
       const book = await Bookline.sequelize.query(
-        `select book_lines.bookline_id, bookline_name, thumnail, categories.category_name, description as category_description, GROUP_CONCAT(DISTINCT author_name ORDER BY author_name ASC SEPARATOR ', ') as authors
+        `select book_lines.bookline_id, bookline_name, thumbnail, categories.category_name, description as category_description, GROUP_CONCAT(DISTINCT author_name ORDER BY author_name ASC SEPARATOR ', ') as authors
             , publisher_name, publishers.address as publisher_address, publishers.phone as publisher_phone, repository_name, repositories.address as repository_address, books.book_id from book_lines
             inner join categories on categories.category_id = book_lines.category_id
             inner join author_books on author_books.bookline_id = book_lines.bookline_id
