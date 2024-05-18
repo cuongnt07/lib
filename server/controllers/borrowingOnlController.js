@@ -7,11 +7,11 @@ class BorrowingOnlController {
     async createNewBorrowingOnl(req, res) {
         try {
             const borrowingOnl = req.body;
-            const { user } = req;
-            console.log(user);
+            //const { user } = req;
+            //console.log(user);
             await db.borrowingOnline.create({
                 bookline_id: borrowingOnl.bookline_id,
-                user_id: user.userId,
+                user_id: borrowingOnl.user_id,
                 borrowing_date: new Date(),
             })
             return res.status(200).json({
