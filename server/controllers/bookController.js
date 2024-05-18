@@ -62,19 +62,19 @@ class BookController {
     try {
       const bookline_id = req.params.id;
       const result1 = await db.book.sequelize.query(
-        `SELECT count(*) as repo1 FROM books where bookline_id = ${bookline_id} and repository_id = 1 `,
+        `SELECT count(*) as repo1 FROM books where bookline_id = ${bookline_id} and repository_id = 1 and Idle = 1`,
         { type: sequelize.QueryTypes.SELECT }
       );
       const result2 = await db.book.sequelize.query(
-        `SELECT count(*) as repo2 FROM books where bookline_id = ${bookline_id} and repository_id = 2 `,
+        `SELECT count(*) as repo2 FROM books where bookline_id = ${bookline_id} and repository_id = 2 and Idle = 1`,
         { type: sequelize.QueryTypes.SELECT }
       );
       const result3 = await db.book.sequelize.query(
-        `SELECT count(*) as repo3 FROM books where bookline_id = ${bookline_id} and repository_id = 3 `,
+        `SELECT count(*) as repo3 FROM books where bookline_id = ${bookline_id} and repository_id = 3 and Idle = 1`,
         { type: sequelize.QueryTypes.SELECT }
       );
       const result4 = await db.book.sequelize.query(
-        `SELECT count(*) as repo4 FROM books where bookline_id = ${bookline_id} and repository_id = 4 `,
+        `SELECT count(*) as repo4 FROM books where bookline_id = ${bookline_id} and repository_id = 4 and Idle = 1`,
         { type: sequelize.QueryTypes.SELECT }
       );
       return res.status(200).json({
