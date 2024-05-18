@@ -4,7 +4,7 @@ let borrowingOnlineController = require('../controllers/borrowingOnlController')
 let authenticate = require('../middlewares/authenticate')
 
 //
-router.post('/borrowing-online', authenticate.authenticate, borrowingOnlineController.createNewBorrowingOnl);
+router.post('/borrowing-online', borrowingOnlineController.createNewBorrowingOnl);
 router.get('/borrowed-book', borrowingOnlineController.getBorrowedBookOnline)
 
 
