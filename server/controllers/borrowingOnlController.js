@@ -7,8 +7,11 @@ class BorrowingOnlController {
     async createNewBorrowingOnl(req, res) {
         try {
             const borrowingOnl = req.body;
-            //const { user } = req;
-            //console.log(user);
+            //Kiểm tra xem đã mượn chưa!
+            const existingBorrowedBook = await db.borrowingOnline.findOne({ where: { bookline_id: borrowingOnl.bookline_id, user_id: borrowingOnl.user_id } });
+            if (existingBorrowedBook) {
+                return res.status(400).json({ message: 'Bạn đã mượn cuốn sách này rồi!' });
+            }
             await db.borrowingOnline.create({
                 bookline_id: borrowingOnl.bookline_id,
                 user_id: borrowingOnl.user_id,
