@@ -7,10 +7,8 @@ class authenticateMiddleware {
         const token = req.header("Authorization");
         try {
             const decode = jwt.verify(token, "quantrinh");
-            console.log(decode)
             if (decode) {
-                req.user = decode;
-                console.log(decode);
+                req.user = decode.userId;
                 return next();
             } else {
                 res.status(401).send("Bạn chưa đăng nhập")

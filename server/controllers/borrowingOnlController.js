@@ -26,11 +26,12 @@ class BorrowingOnlController {
     //API người dùng xem sách mình đã thuê 
     async getBorrowedBookOnline(req, res) {
         try {
-            const { user } = req;
-            const book = await db.borrowingOnline.sequelize.query(`SELECT borrowing_id, borrowing_date, bookline_name, thumnail, bl.bookline_id 
+            //const { user } = req;
+            const user = req.body;
+            const book = await db.borrowingOnline.sequelize.query(`SELECT borrowing_id, borrowing_date, bookline_name, thumbnail, bl.bookline_id 
             From borrowing_onlines bo
             inner join book_lines bl on bl.bookline_id = bo.bookline_id
-            where user_id = ${user.userId}`, { type: QueryTypes.SELECT })
+            where user_id = ${user.user_id}`, { type: QueryTypes.SELECT })
             if (!book) {
                 return res.status(404).json({ message: 'Book not found' });
             }

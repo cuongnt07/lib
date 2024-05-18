@@ -6,7 +6,7 @@ const secretKey = 'quantrinh';
 class LoginController {
     async login(req, res) {
         const { email, password } = req.body;
-        console.log(req)
+        //console.log(req)
         try {
             const user = await db.user.findOne({
                 where: {
