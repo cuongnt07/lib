@@ -97,16 +97,12 @@ class BookController {
   //API Lấy toàn bộ sách để hiển thị
   async getAllBook(req, res) {
     try {
-      const books = await Bookline.sequelize.query(
-        `select book_lines.bookline_id, bookline_name, thumbnail, categories.category_name, description as category_description, GROUP_CONCAT(DISTINCT author_name ORDER BY author_name ASC SEPARATOR ', ') as authors
-            , publisher_name, publishers.address as publisher_address, publishers.phone as publisher_phone, repository_name, repositories.address as repository_address from book_lines
-            inner join categories on categories.category_id = book_lines.category_id
-            inner join author_books on author_books.bookline_id = book_lines.bookline_id
-            inner join authors on authors.author_id = author_books.author_id
-            inner join publishers on publishers.publisher_id = book_lines.publisher_id
-            inner join books on books.bookline_id = book_lines.bookline_id 
-            inner join repositories on repositories.repository_id = books.repository_id
-            group by bookline_id`,
+      const books = await Book.sequelize.query(
+        `SELECT books.book_id, book_lines.bookline_name, repositories.repository_name, books.idle
+        FROM books
+        INNER JOIN repositories ON books.repository_id = repositories.repository_id
+        INNER JOIN book_lines ON books.bookline_id = book_lines.bookline_id
+        GROUP BY books.book_id`,
         { type: QueryTypes.SELECT }
       );
       res.status(200).json(books);
