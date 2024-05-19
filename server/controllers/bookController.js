@@ -42,7 +42,7 @@ class BookController {
       });
       await db.book.update(
         {
-          bookline_id: data.bookline_id,
+          bookline_id: book.bookline_id,
           repository_id: book.repository_id,
           idle: book == null ? data.idle : book.idle,
         },
@@ -98,7 +98,7 @@ class BookController {
   async getAllBook(req, res) {
     try {
       const books = await Book.sequelize.query(
-        `SELECT books.book_id, book_lines.bookline_name, repositories.repository_name, books.idle
+        `SELECT books.book_id, book_lines.bookline_name, repositories.repository_name, books.idle, repositories.repository_id, book_lines.bookline_id
         FROM books
         INNER JOIN repositories ON books.repository_id = repositories.repository_id
         INNER JOIN book_lines ON books.bookline_id = book_lines.bookline_id
