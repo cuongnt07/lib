@@ -12,12 +12,15 @@ const { Op } = require("sequelize");
 class BookController {
   async createNewBook(req, res) {
     try {
-      const book = req.body;
-      await db.book.create({
-        bookline_id: book.bookline_id,
-        repository_id: book.repository_id,
-        idle: true,
-      });
+      const book= req.body;
+      for (let i = 0; i < book.quantity; i++) {
+        //console.log(`Creating book ${i + 1} with bookline_id: ${bookbookline_id}, repository_id: ${repository_id}`);
+        await db.book.create({
+          bookline_id: book.bookline_id,
+          repository_id: book.repository_id,
+          idle: true,
+        });
+      }
       return res.status(200).json({
         errCode: 0,
         msg: "Create book successfully!",
