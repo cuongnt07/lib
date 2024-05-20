@@ -42,11 +42,18 @@ class BorrowingOffController {
     try {
         const user = req.query;
         const borrowedBooks = await db.borrowingOffline.sequelize.query(
-          `SELECT bo.borrowing_id, bo.borrowing_date, bo.due_date, bo.return_date, b.book_id, bl.bookline_id, bl.bookline_name, r.repository_name,
-          CASE 
-                WHEN bo.return_date IS NULL THEN 'Đang mượn' 
-          ELSE 'Đã trả'
-          END AS status
+          `SELECT bo.borrowing_id, 
+                  DATE_FORMAT(bo.borrowing_date, '%Y-%m-%d %H:%i:%s') as borrowing_date, 
+                  DATE_FORMAT(bo.due_date, '%Y-%m-%d %H:%i:%s') as due_date, 
+                  DATE_FORMAT(bo.return_date, '%Y-%m-%d %H:%i:%s') as return_date, 
+                  b.book_id, 
+                  bl.bookline_id, 
+                  bl.bookline_name, 
+                  r.repository_name,
+                  CASE 
+                        WHEN bo.return_date IS NULL THEN 'Đang mượn' 
+                        ELSE 'Đã trả'
+                  END AS status
           FROM borrowing_offlines bo
           INNER JOIN books b ON bo.book_id = b.book_id
           INNER JOIN book_lines bl ON b.bookline_id = bl.bookline_id
@@ -98,7 +105,7 @@ class BorrowingOffController {
     }
   }
 
-  //sửa thông tin liên quan đến mượn off.
+  //sửa thông tin liên quan đến muon off.
   async updateBorrowingOff(req, res) {
     try {
       const { borrowing_id } = req.body;
