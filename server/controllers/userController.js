@@ -28,7 +28,7 @@ class LoginController {
             const token = jwt.sign({ userId: user.user_id, roleId: user.role_id }, secretKey, {
                 expiresIn: '1h',
             });
-            res.cookie('auth_token', token, { httpOnly: false });
+            res.cookie('auth_token', token, { httpOnly: true });
             return res.status(200).json({
                 user,
                 token: token,
