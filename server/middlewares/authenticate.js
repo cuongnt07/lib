@@ -4,11 +4,12 @@ const jwt = require("jsonwebtoken")
 class authenticateMiddleware {
     authenticate(req, res, next) {
         //check xem dang nhap chua
-        const token = req.header("Authorization");
+        const token = req.cookies.auth_token; // Kiểm tra req.cookies trước khi truy cập token
+        //console.log(token);
         try {
             const decode = jwt.verify(token, "quantrinh");
             if (decode) {
-                req.user = decode.userId;
+                req.user = decode;
                 return next();
             } else {
                 res.status(401).send("Bạn chưa đăng nhập")
@@ -19,4 +20,5 @@ class authenticateMiddleware {
 
     };
 }
+
 module.exports = new authenticateMiddleware
