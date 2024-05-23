@@ -2,7 +2,7 @@
 class authorizeMiddleware {
     checkStudent(req, res, next) {
         var role = req.user.roleId;
-        if(role == 1){
+        if(role >= 1){
             next()
         }else{
             res.json('Not permission')
@@ -11,7 +11,7 @@ class authorizeMiddleware {
 
     checkLibrarian(req, res, next) {
         var role = req.user.roleId;
-        if(role == 2){
+        if(role >= 2){
             next()
         }else{
             res.json('Bạn không phải thủ thư')
@@ -20,7 +20,7 @@ class authorizeMiddleware {
 
     checkAdmin(req, res, next) {
         var role = req.user.roleId;
-        if(role == 3){
+        if(role >= 3){
             next()
         }else{
             res.json('Bạn không phải chuyên viên bổ sung')
