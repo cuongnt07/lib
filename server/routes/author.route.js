@@ -7,6 +7,7 @@ const authorize = require('../middlewares/authorize')
 
 //
 router.post("/new-author", authenticateMiddleware.authenticate, authorize.checkAdmin, authorController.createNewAuthor);
-router.get("/author", authorController.getAllAuthor, authenticateMiddleware.authenticate, authorize.checkAdmin,);
+router.get("/author", authorController.getAllAuthor);
+router.put("/author/:id", authorController.updateAuthor);
 
 module.exports = router;
