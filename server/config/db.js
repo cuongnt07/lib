@@ -1,16 +1,11 @@
 const { Sequelize } = require("sequelize");
 
-const db = new Sequelize(
-  "railway",
-  "root",
-  "uLWaYxjxdgEpZFdlBtcGJDMOqXnTXoKc",
-  {
-    host: "mysql-production-bc34.up.railway.app",
-    dialect: "mysql",
-    port: 3307,
-    logging: false,
-  }
-);
+const db = new Sequelize("defaultdb", "avnadmin", "AVNS_3Ouri7MDV38SULfCToP", {
+  host: "mysql-1df41839-cuongnguyen26072002-6d7e.l.aivencloud.com",
+  dialect: "mysql",
+  port: 13720,
+  logging: false,
+});
 
 try {
   db.authenticate();
